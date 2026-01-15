@@ -24,7 +24,7 @@ export const LandingPage: FC = () => {
                         <a href="#features" className="hover:text-white transition-colors">Características</a>
                         <a href="#demo" className="hover:text-white transition-colors">Demo</a>
                         <button
-                            onClick={() => navigate('/app')}
+                            onClick={() => navigate('/app/dashboard')}
                             className="bg-white text-slate-900 px-4 py-2 rounded-full hover:bg-blue-50 transition-colors font-semibold"
                         >
                             Log In
@@ -64,7 +64,7 @@ export const LandingPage: FC = () => {
                             <motion.button
                                 whileHover={{ scale: 1.05 }}
                                 whileTap={{ scale: 0.95 }}
-                                onClick={() => navigate('/app')}
+                                onClick={() => navigate('/app/dashboard')}
                                 className="px-8 py-4 bg-blue-600 hover:bg-blue-500 text-white rounded-full font-bold text-lg flex items-center gap-2 shadow-lg shadow-blue-600/25 transition-all"
                             >
                                 Entrar a la App <ArrowRight size={20} />

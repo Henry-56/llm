@@ -46,6 +46,8 @@ function App() {
             <Route path="clientes" element={<ClientsPage />} />
             <Route path="devoluciones" element={<ReturnsPage />} />
             <Route path="ajustes" element={<SettingsPage />} />
+            {/* Redirect unknown inner routes to dashboard */}
+            <Route path="*" element={<Navigate to="/app/dashboard" replace />} />
           </Route>
 
           {/* Fallback */}
