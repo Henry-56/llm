@@ -1,0 +1,32 @@
+
+> admin-dashboard-excel@0.0.0 build
+> tsc -b && vite build
+
+[36mvite v7.3.1 [32mbuilding client environment for production...[36m[39m
+transforming...
+Error: Cannot apply unknown utility class `bg-gray-50`. Are you using CSS modules or similar and missing `@reference`? https://tailwindcss.com/docs/functions-and-directives#reference-directive
+    at onInvalidCandidate (C:\Users\HENRY\Documents\trabajo FYGRAD\LLM\admin-dashboard-excel\node_modules\tailwindcss\dist\lib.js:21:1314)
+    at Te (C:\Users\HENRY\Documents\trabajo FYGRAD\LLM\admin-dashboard-excel\node_modules\tailwindcss\dist\lib.js:16:36652)
+    at C:\Users\HENRY\Documents\trabajo FYGRAD\LLM\admin-dashboard-excel\node_modules\tailwindcss\dist\lib.js:21:355
+    at Rr (C:\Users\HENRY\Documents\trabajo FYGRAD\LLM\admin-dashboard-excel\node_modules\tailwindcss\dist\lib.js:3:1718)
+    at _ (C:\Users\HENRY\Documents\trabajo FYGRAD\LLM\admin-dashboard-excel\node_modules\tailwindcss\dist\lib.js:3:1377)
+    at $e (C:\Users\HENRY\Documents\trabajo FYGRAD\LLM\admin-dashboard-excel\node_modules\tailwindcss\dist\lib.js:21:172)
+    at un (C:\Users\HENRY\Documents\trabajo FYGRAD\LLM\admin-dashboard-excel\node_modules\tailwindcss\dist\lib.js:38:294)
+    at async cn (C:\Users\HENRY\Documents\trabajo FYGRAD\LLM\admin-dashboard-excel\node_modules\tailwindcss\dist\lib.js:38:631)
+    at async Xr (C:\Users\HENRY\Documents\trabajo FYGRAD\LLM\admin-dashboard-excel\node_modules\@tailwindcss\node\dist\index.js:10:3417)
+    at async I (C:\Users\HENRY\Documents\trabajo FYGRAD\LLM\admin-dashboard-excel\node_modules\@tailwindcss\postcss\dist\index.js:10:3977)
+[32m✓[39m 10 modules transformed.
+[31m✗[39m Build failed in 694ms
+[31merror during build:
+[31m[vite:css] [postcss] tailwindcss: C:/Users/HENRY/Documents/trabajo FYGRAD/LLM/admin-dashboard-excel/src/index.css:1:1: Cannot apply unknown utility class `bg-gray-50`. Are you using CSS modules or similar and missing `@reference`? https://tailwindcss.com/docs/functions-and-directives#reference-directive[31m
+file: [36mC:/Users/HENRY/Documents/trabajo FYGRAD/LLM/admin-dashboard-excel/src/index.css:1:0[31m
+    at Input.error (C:\Users\HENRY\Documents\trabajo FYGRAD\LLM\admin-dashboard-excel\node_modules\postcss\lib\input.js:135:16)
+    at Root.error (C:\Users\HENRY\Documents\trabajo FYGRAD\LLM\admin-dashboard-excel\node_modules\postcss\lib\node.js:146:32)
+    at Object.Once (C:\Users\HENRY\Documents\trabajo FYGRAD\LLM\admin-dashboard-excel\node_modules\@tailwindcss\postcss\dist\index.js:10:6911)
+    at async LazyResult.runAsync (C:\Users\HENRY\Documents\trabajo FYGRAD\LLM\admin-dashboard-excel\node_modules\postcss\lib\lazy-result.js:293:11)
+    at async runPostCSS (file:///C:/Users/HENRY/Documents/trabajo%20FYGRAD/LLM/admin-dashboard-excel/node_modules/vite/dist/node/chunks/config.js:30145:19)
+    at async compilePostCSS (file:///C:/Users/HENRY/Documents/trabajo%20FYGRAD/LLM/admin-dashboard-excel/node_modules/vite/dist/node/chunks/config.js:30129:6)
+    at async compileCSS (file:///C:/Users/HENRY/Documents/trabajo%20FYGRAD/LLM/admin-dashboard-excel/node_modules/vite/dist/node/chunks/config.js:30059:26)
+    at async Object.handler (file:///C:/Users/HENRY/Documents/trabajo%20FYGRAD/LLM/admin-dashboard-excel/node_modules/vite/dist/node/chunks/config.js:29592:54)
+    at async transform (file:///C:/Users/HENRY/Documents/trabajo%20FYGRAD/LLM/admin-dashboard-excel/node_modules/rollup/dist/es/shared/node-entry.js:21283:16)
+    at async ModuleLoader.addModuleSource (file:///C:/Users/HENRY/Documents/trabajo%20FYGRAD/LLM/admin-dashboard-excel/node_modules/rollup/dist/es/shared/node-entry.js:21497:36)[39m
