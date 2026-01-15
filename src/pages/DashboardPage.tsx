@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 import { useData } from '../context/DataContext';
 import { useDashboardMetrics, type DashboardFilters } from '../hooks/useDashboardMetrics';
 import { MotivoChart, EstadoChart, ResolucionChart, TimelineChart } from '../components/Dashboard/DashboardCharts';
@@ -42,9 +43,9 @@ const DashboardPage: React.FC = () => {
                 <Package size={64} className="text-gray-300 mb-4" />
                 <h2 className="text-xl font-semibold text-gray-900">No hay datos importados</h2>
                 <p className="text-gray-500 max-w-sm mt-2">Sube un archivo Excel para ver el dashboard.</p>
-                <a href="/import" className="mt-6 px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition">
+                <Link to="/app/import" className="mt-6 px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition">
                     Ir a Importar
-                </a>
+                </Link>
             </div>
         );
     }
