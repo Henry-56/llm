@@ -39,7 +39,7 @@ export const ImportPage: React.FC = () => {
     const handleImport = () => {
         if (result && result.validData) {
             setImportedData(result.validData);
-            navigate('/');
+            navigate('/app/dashboard');
         }
     };
 
