@@ -35,8 +35,8 @@ function App() {
     <BrowserRouter>
       <DataProvider>
         <Routes>
-          {/* Public Landing Page */}
-          <Route path="/" element={<LandingPage />} />
+          {/* Public Landing Page ignored - Direct to App */}
+          <Route path="/" element={<Navigate to="/app/dashboard" replace />} />
 
           {/* Protected App Routes */}
           <Route path="/app" element={<Layout />}>
@@ -51,7 +51,8 @@ function App() {
           </Route>
 
           {/* Fallback */}
-          <Route path="*" element={<Navigate to="/" replace />} />
+          {/* Fallback */}
+          <Route path="*" element={<Navigate to="/app/dashboard" replace />} />
         </Routes>
       </DataProvider>
     </BrowserRouter>
