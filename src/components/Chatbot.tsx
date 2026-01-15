@@ -24,7 +24,7 @@ export const Chatbot: FC = () => {
     const [input, setInput] = useState('');
     const [isLoading, setIsLoading] = useState(false);
     const messagesEndRef = useRef<HTMLDivElement>(null);
-    const { devoluciones } = useData(); // Access context to give AI context!
+    const { devoluciones, clientes } = useData(); // Access context to give AI context!
 
     const scrollToBottom = () => {
         messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
@@ -33,6 +33,49 @@ export const Chatbot: FC = () => {
     useEffect(() => {
         scrollToBottom();
     }, [messages]);
+
+    const getClientName = (id: string) => clientes.find(c => c.id_cliente === id)?.nombres || id;
+
+    // simplistic RAG: Retrieve relevant items based on keyword match
+    const retrieveContext = (query: string): string => {
+        const lowerQuery = query.toLowerCase();
+
+        // simple keyword scoring
+        const scoredDocs = devoluciones.map(dev => {
+            let score = 0;
+            const clientName = getClientName(dev.id_cliente).toLowerCase();
+            const searchableText = `${dev.id_devolucion} ${dev.id_cliente} ${clientName} ${dev.producto} ${dev.motivo} ${dev.estado} ${dev.resolucion || ''}`.toLowerCase();
+
+            if (searchableText.includes(lowerQuery)) score += 10;
+            // Split query into words for partial matches
+            const words = lowerQuery.split(/\s+/);
+            words.forEach(word => {
+                if (word.length > 3 && searchableText.includes(word)) score += 2;
+            });
+
+            return { dev, score, clientName };
+        });
+
+        // Filter and sort by score
+        let topDocs = scoredDocs
+            .filter(d => d.score > 0)
+            .sort((a, b) => b.score - a.score)
+            .slice(0, 10);
+
+        // FALLBACK: If query is general (no specific matches), provide the latest 20 records
+        // This allows questions like "dame los nombres de los clientes" to work.
+        if (topDocs.length === 0) {
+            topDocs = scoredDocs
+                .slice(0, 20) // Take first 20 (assuming natural order is meaningful or arbitrary is fine for "list")
+                .map(d => ({ ...d, score: 1 }));
+        }
+
+        if (topDocs.length === 0) return "";
+
+        return topDocs.map(d =>
+            `- ID: ${d.dev.id_devolucion}, Cliente: ${d.clientName} (${d.dev.id_cliente}), Producto: ${d.dev.producto}, Motivo: ${d.dev.motivo}, Estado: ${d.dev.estado}, Fecha: ${d.dev.fecha_solicitud}${d.dev.estado === 'resuelto' ? `, Resolución: ${d.dev.resolucion}` : ''}`
+        ).join('\n');
+    };
 
     const handleSend = async () => {
         if (!input.trim()) return;
@@ -52,20 +95,28 @@ export const Chatbot: FC = () => {
         setIsLoading(true);
 
         try {
-            // Reverting to gemini-1.5-flash as 2.0-flash-lite failed with Quota Exceeded (Limit 0).
-            const model = genAI.getGenerativeModel({ model: 'gemini-1.5-flash' });
+            // Using gemini-2.5-flash-lite as validated
+            const model = genAI.getGenerativeModel({ model: 'gemini-2.5-flash-lite' });
 
             // Prepare context for the AI
-            // We'll give it a summary of the current data state
+            const context = retrieveContext(userMsg.text);
+
             const contextPrompt = `
 Eres un asistente experto en un sistema de gestión de devoluciones.
-Contexto Actual del Sistema:
-- Total Devoluciones en base de datos: ${devoluciones.length}
-- Estado de los datos: ${devoluciones.length > 0 ? 'Datos cargados' : 'Sin datos o vacío'}
+
+CONTEXTO DE DATOS ENCONTRADOS (Top 10 coincidencias):
+${context || "- No se encontraron coincidencias exactas en la base de datos para esta consulta."}
+
+Resumen General del Sistema:
+- Total Devoluciones: ${devoluciones.length}
+- Total Clientes: ${clientes.length}
 
 Usuario pregunta: "${userMsg.text}"
 
-Responde de manera concisa, útil y profesional. Si te preguntan por datos específicos que no tienes, explica que solo ves resúmenes generales o guíalos a la sección correcta del dashboard.
+Instrucciones:
+1. Usa la información de "CONTEXTO DE DATOS ENCONTRADOS" para responder preguntas sobre casos específicos (nombres, IDs, productos).
+2. Si la información está en el contexto, úsala. Si no, responde con la información general o indica amablemente qué no encuentras el dato.
+3. Responde de manera concisa, útil y profesional en Español.
             `;
 
             const result = await model.generateContent(contextPrompt);
@@ -117,7 +168,7 @@ Responde de manera concisa, útil y profesional. Si te preguntan por datos espec
                                     <h3 className="font-bold">Asistente AI</h3>
                                     <p className="text-xs text-blue-100 flex items-center gap-1">
                                         <span className="w-2 h-2 bg-green-400 rounded-full" />
-                                        Online - Gemini 1.5
+                                        Online - Gemini 2.5 Lite
                                     </p>
                                 </div>
                             </div>

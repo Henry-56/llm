@@ -1,5 +1,6 @@
 import React, { useState, useMemo } from 'react';
 import { useData } from '../context/DataContext';
+import { ReturnsAIChat } from '../components/ReturnsAIChat';
 import { Search, CheckCircle, Clock, ArrowRight } from 'lucide-react';
 import { format, parseISO } from 'date-fns';
 import { cn } from '../lib/utils';
@@ -205,6 +206,8 @@ export const ReturnsPage: React.FC = () => {
                     </div>
                 </div>
             )}
+
+            <ReturnsAIChat devoluciones={devoluciones} clientes={clientes} />
         </div>
     );
 };
